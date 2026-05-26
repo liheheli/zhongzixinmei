@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>来伊份订货系统</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+.redirect-page { display: none; justify-content: center; align-items: center; min-height: 100vh; background: hsl(40 40% 97%); padding: 24px; }
+.redirect-page.active { display: flex; }
+.redirect-card { text-align: center; max-width: 320px; }
+.redirect-card .icon { width: 64px; height: 64px; border-radius: 16px; background: hsl(170 60% 40%); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+.redirect-card .icon svg { width: 32px; height: 32px; fill: white; }
+.redirect-card h2 { font-size: 20px; font-weight: 700; color: hsl(170 30% 12%); margin-bottom: 8px; }
+.redirect-card p { font-size: 14px; color: hsl(170 12% 44%); line-height: 1.6; margin-bottom: 24px; }
+.redirect-card .tip { font-size: 12px; color: hsl(170 12% 60%); }
+.wechat-guide { display: none; position: fixed; inset: 0; z-index: 9999; justify-content: center; align-items: center; background: rgba(253, 250, 245, 0.96); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.wechat-guide.active { display: flex; }
+.wechat-guide-inner { text-align: center; max-width: 300px; padding: 24px; }
+.guide-icon { width: 72px; height: 72px; border-radius: 50%; background: hsl(170 45% 94%); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+.guide-icon svg { width: 36px; height: 36px; fill: hsl(170 60% 40%); }
+.wechat-guide h2 { font-size: 20px; font-weight: 700; color: hsl(170 30% 12%); margin-bottom: 12px; }
+.wechat-guide p { font-size: 14px; color: hsl(170 12% 44%); line-height: 1.7; margin-bottom: 32px; }
+.arrow-area { display: flex; justify-content: flex-end; padding-right: 16px; margin-bottom: 8px; }
+.arrow-area svg { animation: bounce 1.2s ease-in-out infinite; }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.step-box { background: hsl(170 45% 94%); border-radius: 12px; padding: 16px; display: flex; align-items: center; gap: 12px; text-align: left; }
+.step-box svg { width: 20px; height: 20px; fill: hsl(170 60% 40%); flex-shrink: 0; }
+.step-box span { font-size: 14px; font-weight: 500; color: hsl(170 60% 32%); }
+.divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; }
+.divider-line { flex: 1; height: 1px; background: hsl(40 20% 88%); }
+.divider-text { font-size: 12px; color: hsl(170 12% 60%); }
+.copy-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 14px 24px; background: hsl(170 60% 40%); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 500; cursor: pointer; transition: transform 0.15s; -webkit-tap-highlight-color: transparent; }
+.copy-btn:active { transform: scale(0.97); }
+.copy-btn svg { width: 18px; height: 18px; fill: currentColor; }
+.copy-btn.copied { background: hsl(155 58% 40%); }
+.continue-link { display: inline-block; margin-top: 20px; font-size: 12px; color: hsl(170 12% 60%); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; background: none; border: none; }
+</style>
+</head>
+<body>
+<div id="redirectPage" class="redirect-page">
+  <div class="redirect-card">
+    <div class="icon">
+      <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/></svg>
+    </div>
+    <h2>正在跳转订货系统</h2>
+    <p>请稍候，正在为您打开来伊份订货系统...</p>
+    <p class="tip">如未自动跳转，请复制链接到浏览器打开</p>
+  </div>
+</div>
+<div id="wechatGuide" class="wechat-guide">
+  <div class="wechat-guide-inner">
+    <div class="guide-icon">
+      <svg viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
+    </div>
+    <h2>请在浏览器中打开</h2>
+    <p>微信内暂不支持直接访问，请按以下步骤操作即可正常使用</p>
+    <div class="arrow-area">
+      <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
+        <path d="M18 0 L18 26" stroke="hsl(170 60% 40%)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M10 8 L18 0 L26 8" stroke="hsl(170 60% 40%)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="step-box">
+      <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+      <span>点击右上角「⋯」→ 选择「在浏览器中打开」</span>
+    </div>
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-text">或者</span>
+      <div class="divider-line"></div>
+    </div>
+    <button id="copyBtn" class="copy-btn" onclick="handleCopy()">
+      <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+      <span id="copyText">复制链接到浏览器打开</span>
+    </button>
+    <button class="continue-link" onclick="dismissGuide()">仍然继续访问</button>
+  </div>
+</div>
+<script>
+var TARGET_URL = 'https://laiyifen.aiforce.cloud/app/app_4k28jakvuza7w';
+var isWechat = /MicroMessenger/i.test(navigator.userAgent);
+if (isWechat) {
+  document.getElementById('wechatGuide').classList.add('active');
+} else {
+  document.getElementById('redirectPage').classList.add('active');
+  setTimeout(function() {
+    window.location.href = TARGET_URL;
+  }, 800);
+}
+function handleCopy() {
+  var btn = document.getElementById('copyBtn');
+  var text = document.getElementById('copyText');
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(TARGET_URL).then(function() {
+      showCopied(btn, text);
+    }).catch(function() {
+      fallbackCopy(btn, text);
+    });
+  } else {
+    fallbackCopy(btn, text);
+  }
+}
+function fallbackCopy(btn, text) {
+  var textarea = document.createElement('textarea');
+  textarea.value = TARGET_URL;
+  textarea.style.position = 'fixed';
+  textarea.style.opacity = '0';
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand('copy');
+  document.body.removeChild(textarea);
+  showCopied(btn, text);
+}
+function showCopied(btn, text) {
+  btn.classList.add('copied');
+  text.textContent = '已复制，请在浏览器中粘贴打开';
+  setTimeout(function() {
+    btn.classList.remove('copied');
+    text.textContent = '复制链接到浏览器打开';
+  }, 3000);
+}
+function dismissGuide() {
+  document.getElementById('wechatGuide').classList.remove('active');
+  document.getElementById('redirectPage').classList.add('active');
+  setTimeout(function() {
+    window.location.href = TARGET_URL;
+  }, 800);
+}
+</script>
+</body>
+</html>
